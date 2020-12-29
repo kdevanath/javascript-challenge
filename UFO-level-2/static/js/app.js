@@ -4,13 +4,79 @@ var tableData = data;
 
 // YOUR CODE HERE!
 
-function deleteRows() {
-    var ufoTable = d3.select("#ufo-table");
-    var rowCount = ufoTable.rows.length;
-    console.log(rowCount);
-    while(ufoTable.rows.length > 0 ) {
-        ufoTable.deleteRow(0);
-   }
+function updateStateDropdown() {
+
+    var states = tableData.map(states => {
+        return states.state;  
+    });
+    var uniqueSet = new Set(states);
+    states = [...uniqueSet];
+    console.log(states);
+
+    var stateDropdown = d3.select("#state");
+    var options = stateDropdown.selectAll("option")
+            .data(states)
+            .enter()
+            .append("option");
+
+        states.forEach(cntry => {
+            options.text(function(d) {
+                return d;
+            })
+            .attr("value", function(d) {
+                return d;
+            });
+    });
+}
+
+function updateCountryDropdown() {
+
+    var countries = tableData.map(country => {
+        return country.country;  
+    });
+    var uniqueSet = new Set(countries);
+    countries = [...uniqueSet];
+    console.log(countries);
+
+    var countryDropdown = d3.select("#country");
+    countries.forEach(cntry => {
+        var options = countryDropdown.selectAll("option")
+            .data(countries)
+            .enter()
+            .append("option");
+
+            options.text(function(d) {
+                return d;
+            })
+            .attr("value", function(d) {
+                return d;
+            });
+    });
+}
+
+function updateCityDropdown() {
+
+    var cities = tableData.map(city => {
+        return city.city;  
+    });
+    var uniqueSet = new Set(cities);
+    cities = [...uniqueSet];
+    
+    var cityDropdown = d3.select("#sel1");
+    cities.forEach(city => {
+        var options = cityDropdown.selectAll("option")
+            .data(cities)
+            .enter()
+            .append("option");
+
+            options.text(function(d) {
+                return d;
+            })
+            .attr("value", function(d) {
+                return d;
+            });
+        //selectList.append("<option>" + city.city + "</option>");
+    });
 }
 
 function updateTable(ufoTable) {
@@ -30,6 +96,9 @@ function updateTable(ufoTable) {
 }
 
 updateTable(tableData);
+updateCityDropdown();
+updateCountryDropdown();
+updateStateDropdown();
 
 var filterButton = d3.select("#filter-btn");
 
