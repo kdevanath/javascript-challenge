@@ -39,12 +39,11 @@ function updateCountryDropdown() {
     console.log(countries);
 
     var countryDropdown = d3.select("#country");
-    countries.forEach(cntry => {
-        var options = countryDropdown.selectAll("option")
+    var options = countryDropdown.selectAll("option")
             .data(countries)
             .enter()
             .append("option");
-
+    countries.forEach(cntry => {
             options.text(function(d) {
                 return d;
             })
@@ -62,13 +61,12 @@ function updateCityDropdown() {
     var uniqueSet = new Set(cities);
     cities = [...uniqueSet];
     
-    var cityDropdown = d3.select("#sel1");
-    cities.forEach(city => {
-        var options = cityDropdown.selectAll("option")
+    var cityDropdown = d3.select("#city");
+    var options = cityDropdown.selectAll("option")
             .data(cities)
             .enter()
             .append("option");
-
+    cities.forEach(city => {
             options.text(function(d) {
                 return d;
             })
@@ -119,8 +117,24 @@ function runEnter() {
     // Get the value property of the input element
     var inputDate = inputElement.property("value");
     console.log(inputDate);
+   
+    //Get the selected text property of the dropdown  elements
+    const city = d3.select('#city option:checked').text();
+    console.log(city);
 
-    var filteredData = tableData.filter(ufo => ufo.datetime === inputDate);
+    const state = d3.select('#state option:checked').text();
+    console.log(state);
+
+    const country = d3.select('#country option:checked').text();
+    console.log(country);
+
+    /* const state = d3.select('#state option:checked').text();
+    console.log(state);
+ */
+    var filteredData = tableData.filter(ufo => ufo.datetime === inputDate || 
+                                                ufo.city === city &&
+                                                ufo.state === state &&
+                                                ufo.country === country);
     
     // remove rows  from tbody
     var tbody = d3.select("tbody");
