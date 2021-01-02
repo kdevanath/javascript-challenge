@@ -5,10 +5,11 @@ var tableData = data;
 // YOUR CODE HERE!
 
 function updateStateDropdown() {
-
+// get  unique states and add options with value and text to drop down
     var states = tableData.map(states => {
         return states.state;  
     });
+    //using set to get unique states
     var uniqueSet = new Set(states);
     states = [...uniqueSet];
     console.log(states);
@@ -29,8 +30,34 @@ function updateStateDropdown() {
     });
 }
 
+function updateShapeDropdown() {
+    // get  unique states and add options with value and text to drop down
+        var shapes = tableData.map(shapes => {
+            return shapes.shape;  
+        });
+        //using set to get unique states
+        var uniqueSet = new Set(shapes);
+        shapes = [...uniqueSet];
+        console.log(shapes);
+    
+        var shapesDropdown = d3.select("#shape");
+        var options = shapesDropdown.selectAll("option")
+                .data(shapes)
+                .enter()
+                .append("option");
+    
+                shapes.forEach(cntry => {
+                options.text(function(d) {
+                    return d;
+                })
+                .attr("value", function(d) {
+                    return d;
+                });
+        });
+    }
+        
 function updateCountryDropdown() {
-
+// get  unique countries and add options with value and text to drop down
     var countries = tableData.map(country => {
         return country.country;  
     });
@@ -54,7 +81,7 @@ function updateCountryDropdown() {
 }
 
 function updateCityDropdown() {
-
+    // get the unique cities and add options to drop down
     var cities = tableData.map(city => {
         return city.city;  
     });
@@ -76,7 +103,7 @@ function updateCityDropdown() {
         //selectList.append("<option>" + city.city + "</option>");
     });
 }
-
+//Update the table from data
 function updateTable(ufoTable) {
 
     var tbody = d3.select("tbody");
@@ -97,6 +124,7 @@ updateTable(tableData);
 updateCityDropdown();
 updateCountryDropdown();
 updateStateDropdown();
+updateShapeDropdown();
 
 var filterButton = d3.select("#filter-btn");
 
@@ -141,5 +169,11 @@ function runEnter() {
     tbody.html("");
 
     updateTable(filteredData);
+
+    d3.select('#country option:checked').property('checked',false);
+    d3.select('#city option:checked').property('checked',false)
+    d3.select('#state option:checked').property('checked',false)
+    
+    console.log(d3.select('#state option:checked').property('selected'));
 
 }
